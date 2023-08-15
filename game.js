@@ -28,7 +28,9 @@ function startGame() {
   game.font = elementSize + "px Verdana";
   game.textAlign = "";
 
-  for (let i = 0; i < +10; i++) {
-    game.fillText(emojis["X"], elementSize * i, elementSize);
+  for (let row = 0; row < 10; row++) {
+    for (let col = 0; col < 10; col++) {
+      game.fillText(emojis["X"], elementSize * col, elementSize * row);
+    }
   }
 }
