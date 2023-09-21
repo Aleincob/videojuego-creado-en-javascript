@@ -14,6 +14,10 @@ const playerPosition = {
   x: undefined,
   y: undefined,
 };
+const giftPosition = {
+  x: undefined,
+  y: undefined,
+};
 
 window.addEventListener("load", setCanvasSize);
 window.addEventListener("resize", setCanvasSize);
