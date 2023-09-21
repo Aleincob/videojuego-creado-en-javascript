@@ -28,7 +28,7 @@ function setCanvasSize() {
   canvas.setAttribute("width", canvaSize);
   canvas.setAttribute("height", canvaSize);
 
-  elementSize = canvaSize / 10;
+  elementSize = canvaSize / 10 - 1;
 
   startGame();
 }
@@ -46,7 +46,7 @@ function startGame() {
   mapRowCols.forEach((row, rowI) => {
     row.forEach((col, colI) => {
       const emoji = emojis[col];
-      const posX = elementSize * colI;
+      const posX = elementSize * colI - 1;
       const posY = elementSize * (rowI + 1);
 
       if (col == "O") {
@@ -61,6 +61,7 @@ function startGame() {
     });
   });
   movePlayer();
+  console.log(playerPosition);
 }
 
 function movePlayer() {
@@ -82,21 +83,39 @@ function moveByKeys(e) {
 
 function moveUp() {
   console.log("Me movi hacia arriba");
-  playerPosition.y -= elementSize;
-  startGame();
+
+  if (playerPosition.y - elementSize < elementSize) {
+    console.log("OUT");
+  } else {
+    playerPosition.y -= elementSize;
+    startGame();
+  }
 }
 function moveLeft() {
-  console.log("Me movi hacia la izquierda");
-  playerPosition.x -= elementSize;
-  startGame();
+  console.log("Me quiero mover hacia izquierda");
+
+  if (playerPosition.x + elementSize < elementSize) {
+    console.log("OUT");
+  } else {
+    playerPosition.x -= elementSize;
+    startGame();
+  }
 }
 function moveRight() {
   console.log("Me movi hacia la derecha");
-  playerPosition.x += elementSize;
-  startGame();
+  if (playerPosition.x + elementSize > canvaSize) {
+    console.log("OUT");
+  } else {
+    playerPosition.x += elementSize;
+    startGame();
+  }
 }
 function moveDown() {
   console.log("Me movi hacia abajo");
-  playerPosition.y += elementSize;
-  startGame();
+  if (playerPosition.y + elementSize > canvaSize) {
+    console.log("OUT");
+  } else {
+    playerPosition.y += elementSize;
+    startGame();
+  }
 }
