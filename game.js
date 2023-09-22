@@ -18,6 +18,7 @@ const giftPosition = {
   x: undefined,
   y: undefined,
 };
+let enemiesPositions = [];
 
 window.addEventListener("load", setCanvasSize);
 window.addEventListener("resize", setCanvasSize);
@@ -45,6 +46,7 @@ function startGame() {
   const mapRows = map.trim().split("\n");
   const mapRowCols = mapRows.map((row) => row.trim().split(""));
 
+  enemiesPositions = [];
   game.clearRect(0, 0, canvaSize, canvaSize);
 
   mapRowCols.forEach((row, rowI) => {
@@ -59,6 +61,14 @@ function startGame() {
           playerPosition.y = posY;
           console.log({ playerPosition });
         }
+      } else if (col == "I") {
+        giftPosition.x = posX;
+        giftPosition.y = posY;
+      } else if (col == "X") {
+        enemiesPositions.push({
+          x: posX,
+          y: posY,
+        });
       }
 
       game.fillText(emoji, posX, posY);
@@ -69,6 +79,25 @@ function startGame() {
 }
 
 function movePlayer() {
+  const giftCollisionX =
+    playerPosition.x.toFixed(1) == giftPosition.x.toFixed(1);
+  const giftCollisionY =
+    playerPosition.y.toFixed(1) == giftPosition.y.toFixed(1);
+  const giftCollision = giftCollisionX && giftCollisionY;
+
+  if (giftCollision) {
+    console.log("Pasaste de nivel!!");
+  }
+
+  const enemyCollision = enemiesPositions.find((enemy) => {
+    const enemyCollisionX = enemy.x.toFixed(2) == playerPosition.x.toFixed(2);
+    const enemyCollisionY = enemy.y.toFixed(2) == playerPosition.y.toFixed(2);
+    return enemyCollisionX && enemyCollisionY;
+  });
+
+  if (enemyCollision) {
+    console.log("Chocaste contra una bomba! Kaboom!!");
+  }
   game.fillText(emojis["PLAYER"], playerPosition.x, playerPosition.y);
 }
 
