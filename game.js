@@ -6,9 +6,12 @@ const btnUp = document.querySelector("#up");
 const btnLeft = document.querySelector("#left");
 const btnRight = document.querySelector("#right");
 const btnDown = document.querySelector("#down");
+const spanLives = document.querySelector("#lives");
 
 let canvaSize;
 let elementSize;
+let level = 0;
+let lives = 4;
 
 const playerPosition = {
   x: undefined,
@@ -42,9 +45,17 @@ function startGame() {
   game.font = elementSize + "px Verdana";
   game.textAlign = "";
 
-  const map = maps[0];
+  const map = maps[level];
+
+  if (!map) {
+    gameWin();
+    return;
+  }
+
   const mapRows = map.trim().split("\n");
   const mapRowCols = mapRows.map((row) => row.trim().split(""));
+
+  showLives();
 
   enemiesPositions = [];
   game.clearRect(0, 0, canvaSize, canvaSize);
@@ -86,6 +97,7 @@ function movePlayer() {
   const giftCollision = giftCollisionX && giftCollisionY;
 
   if (giftCollision) {
+    levelWin();
     console.log("Pasaste de nivel!!");
   }
 
@@ -96,9 +108,38 @@ function movePlayer() {
   });
 
   if (enemyCollision) {
-    console.log("Chocaste contra una bomba! Kaboom!!");
+    levelFail();
   }
   game.fillText(emojis["PLAYER"], playerPosition.x, playerPosition.y);
+}
+
+function levelWin() {
+  level++;
+  startGame();
+}
+
+function levelFail() {
+  console.log("KABOOM!!");
+  lives--;
+
+  console.log("Perdiste :(");
+  if (lives <= 0) {
+    level = 0;
+    lives = 4;
+  }
+  playerPosition.x = undefined;
+  playerPosition.y = undefined;
+  startGame();
+}
+
+function gameWin() {
+  console.log("Terminaste el juego!!");
+}
+
+function showLives() {
+  Array;
+
+  spanLives.innerHTML = emojis["HEART"].repeat(lives);
 }
 
 window.addEventListener("keydown", moveByKeys);
