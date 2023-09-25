@@ -7,11 +7,18 @@ const btnLeft = document.querySelector("#left");
 const btnRight = document.querySelector("#right");
 const btnDown = document.querySelector("#down");
 const spanLives = document.querySelector("#lives");
+const spanTime = document.querySelector("#time");
+const spanRecord = document.querySelector("#record");
+const pResult = document.querySelector("#result");
 
 let canvaSize;
 let elementSize;
 let level = 0;
 let lives = 4;
+
+let timeStart;
+let timePLayer;
+let timeInterval;
 
 const playerPosition = {
   x: undefined,
@@ -50,6 +57,12 @@ function startGame() {
   if (!map) {
     gameWin();
     return;
+  }
+
+  if (!timeStart) {
+    timeStart = Date.now();
+    timeInterval = setInterval(showTime, 100);
+    showRecord();
   }
 
   const mapRows = map.trim().split("\n");
@@ -126,6 +139,7 @@ function levelFail() {
   if (lives <= 0) {
     level = 0;
     lives = 4;
+    timeStart = undefined;
   }
   playerPosition.x = undefined;
   playerPosition.y = undefined;
@@ -134,12 +148,37 @@ function levelFail() {
 
 function gameWin() {
   console.log("Terminaste el juego!!");
+  clearInterval(timeInterval);
+
+  const recordTime = localStorage.getItem("record_time");
+  const playerTime = Date.now() - timeStart;
+
+  if (recordTime) {
+    if (recordTime >= playerTime) {
+      localStorage.setItem("record_time", playerTime);
+      pResult.innerHTML = "SUPERASTE EL RECORD";
+    } else {
+      pResult.innerHTML = "No superaste el record :(";
+    }
+  } else {
+    localStorage.setItem("record_time", playerTime);
+    pResult.innerHTML = "Primera vez eh.";
+  }
+
+  console.log({ recordTime, playerTime });
 }
 
 function showLives() {
   Array;
 
   spanLives.innerHTML = emojis["HEART"].repeat(lives);
+}
+
+function showTime() {
+  spanTime.innerHTML = Date.now() - timeStart;
+}
+function showRecord() {
+  spanRecord.innerHTML = localStorage.getItem("record_time");
 }
 
 window.addEventListener("keydown", moveByKeys);
