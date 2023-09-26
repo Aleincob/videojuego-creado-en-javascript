@@ -33,6 +33,10 @@ let enemiesPositions = [];
 window.addEventListener("load", setCanvasSize);
 window.addEventListener("resize", setCanvasSize);
 
+function fixNumber(n) {
+  return Number(n.toFixed(1));
+}
+
 function setCanvasSize() {
   if (window.innerHeight > window.innerWidth) {
     canvaSize = window.innerWidth * 0.8;
@@ -40,10 +44,15 @@ function setCanvasSize() {
     canvaSize = window.innerHeight * 0.8;
   }
 
+  canvaSize = Number(canvaSize.toFixed(1));
+
   canvas.setAttribute("width", canvaSize);
   canvas.setAttribute("height", canvaSize);
 
   elementSize = canvaSize / 10 - 1;
+
+  playerPosition.x = undefined;
+  playerPosition.y = undefined;
 
   startGame();
 }

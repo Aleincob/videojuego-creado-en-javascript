@@ -53,14 +53,14 @@ maps.push(`
     XXXXXXXXXX
   `);
 maps.push(`
-    XIXXXXXXXX
+    O-XXXXXXXX
     X----XXXXX
-    --XXXOXX-X
+    --XXXIXX-X
     -XX-----XX
-    ---XXX--XX
-    --XXXX--XX
-    --XXXX---X
+    -XXXXXX-XX
+    -XXXXXX-XX
+    --XXXXX--X
     X--XXXX-XX
-    XX-XXXX--X
+    XX-XXXX---
     XX------XX
   `);
