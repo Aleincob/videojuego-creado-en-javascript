@@ -61,6 +61,6 @@ maps.push(`
     -XXXXXX-XX
     --XXXXX--X
     X--XXXX-XX
-    XX-XXXX---
+    XX-XXXX-XX
     XX------XX
   `);
